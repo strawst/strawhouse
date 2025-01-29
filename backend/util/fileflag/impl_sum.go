@@ -17,7 +17,7 @@ func (r *Fileflag) SumSet(relativePath string, sum []byte) *gut.ErrorInstance {
 	r.signature.PutHash(hash)
 
 	// * Set file attributes
-	err := xattr.Set(absolutePath, xattrSumTag, []byte(string(sum)+":"+string(signedSum)))
+	err := xattr.Set(absolutePath, xattrSumTag, append(sum, signedSum...))
 	if err != nil {
 		return gut.Err(false, "unable to set file sum attributes", err)
 	}
@@ -40,16 +40,17 @@ func (r *Fileflag) SumGet(relativePath string) (r1 []byte, er *gut.ErrorInstance
 		return nil, gut.Err(false, "unable to get file sum attributes", err)
 	}
 
-	// * Split sum and signed sum
-	parts := bytes.SplitN(attr, []byte(":"), 2)
-	if len(parts) != 2 {
-		return nil, gut.Err(false, "invalid sum attributes format", nil)
+	// * Verify sum attributes
+	hash := r.signature.GetHash()
+	if len(attr) != hash.Size()*2 {
+		return nil, gut.Err(false, "invalid sum attributes length", nil)
 	}
-	sum := parts[0]
-	signedSum := parts[1]
+
+	// * Split sum and signed sum
+	sum := attr[:hash.Size()]
+	signedSum := attr[hash.Size():]
 
 	// * Verify signed checksum
-	hash := r.signature.GetHash()
 	hash.Write(sum)
 	expectedSignedSum := hash.Sum(nil)
 	r.signature.PutHash(hash)

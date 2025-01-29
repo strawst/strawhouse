@@ -1,5 +1,5 @@
 # Stage 1: Build go binary
-FROM golang:1.23.1-bookworm AS builder
+FROM golang:1.23.4-bookworm AS builder
 
 # Copy the source code
 COPY ./backend /opt/backend

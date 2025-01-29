@@ -8,7 +8,6 @@ import (
 	"github.com/strawst/strawhouse-go"
 	"github.com/strawst/strawhouse-go/pb"
 	"io"
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -108,8 +107,6 @@ func (r *Service) Upload(name string, directory string, attribute []byte, conten
 		return nil, nil, nil, er
 	}
 
-	log.Printf("firing")
-
 	// * Fire event feed
 	r.eventfeed.Fire(strawhouse.FeedTypeUpload, relativeFilePath, &pb.UploadFeedResponse{
 		Name:      name,
@@ -118,6 +115,5 @@ func (r *Service) Upload(name string, directory string, attribute []byte, conten
 		Attr:      attribute,
 	})
 
-	log.Printf("returning %v, %v, %v", &relativeFilePath, sum, &encoded)
 	return &relativeFilePath, sum, &encoded, nil
 }

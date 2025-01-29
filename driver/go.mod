@@ -1,6 +1,6 @@
 module github.com/strawst/strawhouse-go
 
-go 1.23.1
+go 1.23.4
 
 require (
 	github.com/bsthun/gut v1.1.1
