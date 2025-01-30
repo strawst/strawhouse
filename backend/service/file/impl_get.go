@@ -22,14 +22,15 @@ func (r *Service) Get(path string, writer io.Writer) *gut.ErrorInstance {
 	if er != nil {
 		return er
 	}
-
-	// * Check file path
-	val, err := r.pogreb.Sum.Get(sum)
-	if err != nil || val == nil {
-		return gut.Err(false, "file record not found")
-	}
-	if !bytes.Equal(val, []byte(path)) {
-		return gut.Err(false, "file path mismatch")
+	if sum != nil {
+		// * Check file path
+		val, err := r.pogreb.Sum.Get(sum)
+		if err != nil || val == nil {
+			return gut.Err(false, "file record not found")
+		}
+		if !bytes.Equal(val, []byte(path)) {
+			return gut.Err(false, "file path mismatch")
+		}
 	}
 
 	// * Open the file
@@ -59,11 +60,25 @@ func (r *Service) Get(path string, writer io.Writer) *gut.ErrorInstance {
 	}
 
 	// * Compare content hash and xattr hash
-	if !bytes.Equal(hash.Sum(nil), sum) {
-		if er := r.fileflag.CorruptedSet(path, true); er != nil {
-			return er
+	actual := hash.Sum(nil)
+	if sum != nil {
+		if !bytes.Equal(actual, sum) {
+			if er := r.fileflag.CorruptedSet(path, true); er != nil {
+				return er
+			}
+			return gut.Err(false, "invalid file hash")
 		}
-		return gut.Err(false, "invalid file hash")
+	} else {
+		// * Get path value
+		val, err := r.pogreb.Sum.Get(actual)
+		if err != nil || val == nil {
+			return gut.Err(false, "file record not found")
+		}
+
+		// * Check file path
+		if !bytes.Equal(val, []byte(path)) {
+			return gut.Err(false, "file path mismatch")
+		}
 	}
 
 	return nil

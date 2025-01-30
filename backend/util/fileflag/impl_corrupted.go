@@ -6,6 +6,12 @@ import (
 )
 
 func (r *Fileflag) Corrupted(relativePath string) *gut.ErrorInstance {
+	// * Xattr disabled
+	if *r.config.EnableXattr == false {
+		return nil
+	}
+
+	// * Convert path
 	absolutePath := r.filepath.AbsPath(relativePath)
 	flag, err := xattr.Get(absolutePath, xattrFlagTag)
 	if err != nil {
@@ -18,6 +24,12 @@ func (r *Fileflag) Corrupted(relativePath string) *gut.ErrorInstance {
 }
 
 func (r *Fileflag) CorruptedInit(relativePath string) *gut.ErrorInstance {
+	// * Xattr disabled
+	if *r.config.EnableXattr == false {
+		return nil
+	}
+
+	// * Convert path
 	absolutePath := r.filepath.AbsPath(relativePath)
 	flag := make([]byte, 4)
 	err := xattr.Set(absolutePath, xattrFlagTag, flag)
@@ -28,6 +40,12 @@ func (r *Fileflag) CorruptedInit(relativePath string) *gut.ErrorInstance {
 }
 
 func (r *Fileflag) CorruptedSet(relativePath string, status bool) *gut.ErrorInstance {
+	// * Xattr disabled
+	if *r.config.EnableXattr == false {
+		return nil
+	}
+
+	// * Convert path
 	absolutePath := r.filepath.AbsPath(relativePath)
 	flag, err := xattr.Get(absolutePath, xattrFlagTag)
 	if err != nil {

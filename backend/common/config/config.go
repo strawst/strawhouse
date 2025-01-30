@@ -17,6 +17,7 @@ type Config struct {
 	PogrebPath  *string   `env:"STRAWHOUSE_POGREB_PATH" yaml:"pogrebPath" validate:"dirpath"`
 	PluginPath  *string   `env:"STRAWHOUSE_PLUGIN_PATH" yaml:"pluginPath" validate:"dirpath"`
 	Key         *string   `env:"STRAWHOUSE_KEY" yaml:"key" validate:"required"`
+	EnableXattr *bool     `env:"STRAWHOUSE_ENABLE_XATTR" yaml:"enableXattr" validate:"required"`
 }
 
 func Init() *Config {

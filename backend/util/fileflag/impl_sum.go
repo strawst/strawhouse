@@ -7,6 +7,11 @@ import (
 )
 
 func (r *Fileflag) SumSet(relativePath string, sum []byte) *gut.ErrorInstance {
+	// * Xattr disabled
+	if *r.config.EnableXattr == false {
+		return nil
+	}
+
 	// * Convert path
 	absolutePath := r.filepath.AbsPath(relativePath)
 
@@ -26,6 +31,11 @@ func (r *Fileflag) SumSet(relativePath string, sum []byte) *gut.ErrorInstance {
 }
 
 func (r *Fileflag) SumGet(relativePath string) (r1 []byte, er *gut.ErrorInstance) {
+	// * Xattr disabled
+	if *r.config.EnableXattr == false {
+		return nil, nil
+	}
+
 	defer func() {
 		if er != nil {
 			_ = r.CorruptedSet(relativePath, true)
