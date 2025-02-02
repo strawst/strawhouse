@@ -49,8 +49,8 @@ github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZN
 github.com/rivo/uniseg v0.2.0/go.mod h1:J6wj4VEh+S6ZtnVlnTBMWIodfgj8LQOQFoIToxlJtxc=
 github.com/rivo/uniseg v0.4.7 h1:WUdvkW8uEhrYfLC4ZzdpI2ztxP1I582+49Oc5Mq64VQ=
 github.com/rivo/uniseg v0.4.7/go.mod h1:FN3SvrM+Zdj16jyLfmOkMNblXMcoc8DfTHruCPUcx88=
-github.com/strawst/strawhouse-go v0.2.0 h1:TSoAiexNERMR28GlKdQ+lkodiQgZXTNWD6w0cb2Gm1w=
-github.com/strawst/strawhouse-go v0.2.0/go.mod h1:Gyd7ETKt8N32DhzM1Ao3/DpkEhrF9B0M7O7RjNZdsMA=
+github.com/strawst/strawhouse-go v0.2.1 h1:+XrqCmuAWt2Esu4A0MciYnpA/iMjIiyTnK88SrHeWHs=
+github.com/strawst/strawhouse-go v0.2.1/go.mod h1:Mjnt1hKkH0+T6/6D75yhD2EzeuPgPSOGMNqqYvQCpfw=
 github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcUk=
 github.com/stretchr/testify v1.8.4/go.mod h1:sz/lmYIOXD/1dqDmKjjqLyZ2RngseejIcXlSw2iwfAo=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=

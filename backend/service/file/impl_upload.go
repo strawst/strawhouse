@@ -30,6 +30,11 @@ func (r *Service) Upload(name string, directory string, attribute []byte, conten
 	absoluteFilePath := r.filepath.AbsPath(filepath.Clean(relativeFilePath))
 	absoluteDirectoryPath := r.filepath.AbsPath(directory)
 
+	// * Check file existence
+	if _, err := os.Stat(absoluteFilePath); err == nil {
+		return nil, nil, nil, gut.Err(false, "file already exists", nil)
+	}
+
 	// * Ensure directory
 	if err := os.MkdirAll(absoluteDirectoryPath, 0700); err != nil {
 		return nil, nil, nil, gut.Err(false, "unable to create directory", err)
@@ -60,23 +65,8 @@ func (r *Service) Upload(name string, directory string, attribute []byte, conten
 	}
 
 	// * Check hash
-	if val, err := r.pogreb.Sum.Get(sum); err != nil {
+	if _, err := r.pogreb.Sum.Get(sum); err != nil {
 		return nil, nil, nil, gut.Err(false, "unable to check hash", err)
-	} else {
-		if val != nil {
-			// Check if file already exists in other path
-			pathVal := string(val)
-			if pathVal != relativeFilePath {
-				return nil, nil, nil, gut.Err(false, "file already exists in other path", nil)
-			}
-
-			// If file exists and not corrupted, deny upload
-			if _, err := os.Stat(absoluteFilePath); err == nil {
-				if er := r.fileflag.Corrupted(relativeFilePath); er == nil {
-					return nil, nil, nil, gut.Err(false, "file already exist", nil)
-				}
-			}
-		}
 	}
 
 	// * Save hash
