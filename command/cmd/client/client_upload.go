@@ -15,6 +15,7 @@ var TransferUploadCmd = &cobra.Command{
 		common.InitDriver()
 		src, _ := cmd.Flags().GetString("src")
 		dst, _ := cmd.Flags().GetString("dst")
+		attr, _ := cmd.Flags().GetString("attr")
 		name := filepath.Base(dst)
 		directory := filepath.Dir(dst)
 
@@ -24,7 +25,7 @@ var TransferUploadCmd = &cobra.Command{
 			gut.Fatal("unable to open file", err)
 		}
 
-		if err := common.Driver.Client.TransferUpload(name, directory, content, nil); err != nil {
+		if err := common.Driver.Client.TransferUpload(name, directory, content, []byte(attr)); err != nil {
 			gut.Fatal("unable to upload file", err)
 		}
 
@@ -35,6 +36,7 @@ var TransferUploadCmd = &cobra.Command{
 func init() {
 	TransferUploadCmd.Flags().String("src", "", "Source file")
 	TransferUploadCmd.Flags().String("dst", "", "Destination path (including filename)")
+	TransferUploadCmd.Flags().String("attr", "", "Attributes")
 	_ = TransferUploadCmd.MarkFlagRequired("src")
 	_ = TransferUploadCmd.MarkFlagRequired("dst")
 	Cmd.AddCommand(TransferUploadCmd)

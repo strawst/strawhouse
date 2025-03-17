@@ -12,7 +12,7 @@ func (r *Server) FileUpload(ctx context.Context, req *pb.UploadRequest) (*emptyp
 	reader := bytes.NewReader(req.Content)
 
 	// * Call upload service
-	_, _, _, er := r.File.Upload(req.Name, req.Directory, nil, reader)
+	_, _, _, er := r.File.Upload(req.Name, req.Directory, req.Attribute, reader)
 	if er != nil {
 		return nil, er
 	}

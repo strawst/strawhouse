@@ -24,8 +24,8 @@ func (r *Plugger) Get(path string, writer io.Writer) *gut.ErrorInstance {
 	return r.file.Get(path, writer)
 }
 
-func (r *Plugger) Upload(name string, directory string, file io.Reader) (*string, []byte, *string, *gut.ErrorInstance) {
-	return r.file.Upload(name, directory, nil, file)
+func (r *Plugger) Upload(name string, directory string, attribute []byte, file io.Reader) (*string, []byte, *string, *gut.ErrorInstance) {
+	return r.file.Upload(name, directory, attribute, file)
 }
 
 func (r *Plugger) Bind(typ strawhouse.FeedType, dir string, handler func(resp any)) uint64 {
